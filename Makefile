@@ -4,10 +4,9 @@
 
 TARGET  = x-shooter
 
-SOURCES = x-shooter.cpp api/graphic.cpp game.cpp # image.cpp
+SOURCES = x-shooter.cpp api/graphic.cpp game.cpp screen.cpp image.cpp #grid.cpp cache.cpp
 
-#SOURCES = x-shooter.cpp game.cpp screen.cpp audio.cpp image.cpp font.cpp \
-#          hud.cpp world.cpp level.cpp hero.cpp enemy.cpp shot.cpp item.cpp
+#audio.cpp font.cpp hud.cpp world.cpp level.cpp hero.cpp enemy.cpp shot.cpp item.cpp
 
 OBJS    = $(SOURCES:.cpp=.o)
 
