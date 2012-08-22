@@ -5,6 +5,11 @@
 
 static std::map<int, SDL_Surface*> surfaces;
 static int surfaces_last = 0;
+static void (*active_listener)(bool, void*) = NULL;
+static void *active_listener_data = NULL;
+static key_listener key_down_listener = NULL, key_up_listener = NULL;
+static void *key_listener_data = NULL;
+
 
 int gui_init(int width, int height, const char *title)
 {
@@ -39,6 +44,21 @@ void gui_update(int id)
 }
 
 
+static int gui_event_key_translate(SDLKey key) {
+	switch (key)
+	{
+		case SDLK_UP: return KEY_UP;
+		case SDLK_DOWN: return KEY_DOWN;
+		case SDLK_RIGHT: return KEY_RIGHT;
+		case SDLK_LEFT: return KEY_LEFT;
+		case SDLK_SPACE: return KEY_SPACE;
+		case SDLK_RCTRL: case SDLK_LCTRL: return KEY_CONTROL;
+		case SDLK_RSHIFT: case SDLK_LSHIFT: return KEY_SHIFT;
+		case SDLK_ESCAPE: return KEY_ESCAPE;
+		default: return 0;
+	}
+}
+
 bool gui_event_loop()
 {
 	SDL_Event event;
@@ -51,13 +71,33 @@ bool gui_event_loop()
 		case SDL_QUIT:
 			quit = true;
 			break;
-		// TODO: case key
+		case SDL_ACTIVEEVENT:
+			if (active_listener && event.active.state & SDL_APPACTIVE == SDL_APPACTIVE) active_listener(event.active.gain != 0, active_listener_data);
+			break;
+		case SDL_KEYDOWN:
+			if (key_down_listener) key_down_listener(gui_event_key_translate(event.key.keysym.sym), active_listener_data);
+			break;
+		case SDL_KEYUP:
+			if (key_up_listener) key_up_listener(gui_event_key_translate(event.key.keysym.sym), active_listener_data);
+			break;
 		}
 	}
 
 	return quit;
 }
 
+void gui_event_set_key_listener(key_listener key_down, key_listener key_up, void *data)
+{
+	key_down_listener = key_down;
+	key_up_listener = key_up;
+	key_listener_data = data;
+}
+
+void gui_event_set_active_listener(void (*activate)(bool, void*), void *data)
+{
+	active_listener = activate;
+	active_listener_data = data;
+}
 
 unsigned long gui_time()
 {

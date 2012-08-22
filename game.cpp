@@ -3,6 +3,17 @@
 #include "game.h"
 #include "api/graphic.h"
 
+void game_active_listener(bool active, void *data)
+{
+	Game *game = (Game*)data;
+
+	game->active = active;
+
+	if (active) game->cache->reload();
+	else game->cache->release();
+}
+
+
 Game::Game() : active(true)
 {
 	screen  = new Screen();
@@ -12,6 +23,7 @@ Game::Game() : active(true)
 	grid = new Grid(image, 5, 4);
 	id = 0;
 
+	gui_event_set_active_listener(game_active_listener, this);
 	// TODO: set activer listener, set key listener
 }
 

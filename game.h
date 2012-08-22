@@ -8,6 +8,8 @@
 #include "cache.h"
 #include "grid.h" // Test only
 
+void game_active_listener(bool active, void *data);
+
 class Game
 {
 public:
@@ -26,6 +28,8 @@ private:
 	Grid *grid; // Teste only
 
 	void waitFixedFrame();
+
+friend void game_active_listener(bool active, void *data);
 };
 
 #endif

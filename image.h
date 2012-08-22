@@ -19,11 +19,11 @@ public:
 private:
 	Screen *screen;
 	std::string filename;
-	int id; // friendly Screen
+	int id;
 	int width;
 	int height;
 
-	friend class Screen;
+friend class Screen;
 };
 
 #endif
