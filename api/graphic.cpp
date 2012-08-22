@@ -27,6 +27,18 @@ void gui_quit()
 }
 
 
+void gui_clear(int id)
+{
+	SDL_Surface *surface = surfaces.find(id)->second;
+	SDL_FillRect(surface, &surface->clip_rect, SDL_MapRGB(surface->format, 0, 0, 0));
+}
+
+void gui_update(int id)
+{
+	SDL_Flip(surfaces.find(id)->second);
+}
+
+
 bool gui_event_loop()
 {
 	SDL_Event event;

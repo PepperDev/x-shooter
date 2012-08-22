@@ -6,9 +6,13 @@ typedef void (*key_listener)(int);
 int gui_init(int width, int height, const char *title);
 void gui_quit();
 
+void gui_clear(int id);
+void gui_update(int id);
+
 bool gui_event_loop();
 /*
 int gui_event_set_key_listener(key_listener key_down, key_listener key_up)
+int gui_event_set_active_listener(void (*activate)(bool))
 */
 
 unsigned long gui_time();

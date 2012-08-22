@@ -1,7 +1,8 @@
 #include "image.h"
+#include "screen.h"
 #include "api/graphic.h"
 
-Image::Image(Screen &screen, std::string filename) : screen(screen), filename(filename)
+Image::Image(Screen *screen, std::string filename) : screen(screen), filename(filename)
 {
 	reload();
 }
@@ -18,7 +19,7 @@ void Image::paint(int x, int y, int top, int left, int width, int height)
 	if (left < 0) left = this->height + left;
 	if (width < 0) width = this->width + width + 1;
 	if (height < 0) height = this->height + height + 1;
-	//screen->paint(x, y, this, top, left, width, height);
+	screen->paint(x, y, this, top, left, width, height);
 }
 
 int Image::getWidth()
@@ -33,12 +34,12 @@ int Image::getHeight()
 
 void Image::release()
 {
-	gui_image_destroy(image_id);
+	gui_image_destroy(id);
 }
 
 void Image::reload()
 {
-	image_id = gui_image_load(filename.c_str());
-	width = gui_image_width(image_id);
-	height = gui_image_height(image_id);
+	id = gui_image_load(filename.c_str());
+	width = gui_image_width(id);
+	height = gui_image_height(id);
 }

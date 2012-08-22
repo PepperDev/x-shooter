@@ -5,6 +5,8 @@
 #define TIME_PER_FRAME     (1000 / FRAMES_PER_SECOND)
 
 #include "screen.h"
+#include "cache.h"
+#include "grid.h" // Test only
 
 class Game
 {
@@ -17,7 +19,11 @@ public:
 
 private:
 	Screen *screen;
+	Cache *cache;
 	unsigned long timer;
+	bool active;
+	int id; // Teste only
+	Grid *grid; // Teste only
 
 	void waitFixedFrame();
 };
