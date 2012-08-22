@@ -2,7 +2,7 @@
 #include "screen.h"
 #include "api/graphic.h"
 
-Image::Image(Screen *screen, std::string filename) : screen(screen), filename(filename), id(-1)
+Image::Image(Screen *screen, std::string filename) : screen(screen), filename(filename)
 {
 	reload();
 }
@@ -34,14 +34,11 @@ int Image::getHeight()
 
 void Image::release()
 {
-	if (id == -1) return;
 	gui_image_destroy(id);
-	id = -1;
 }
 
 void Image::reload()
 {
-	if (id != -1) return;
 	id = gui_image_load(filename.c_str());
 	width = gui_image_width(id);
 	height = gui_image_height(id);
