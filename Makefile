@@ -2,27 +2,31 @@
 # Author: Tiago Augusto Pimenta <tiagoapimenta@gmail.com>
 #
 
-TARGET  = x-shooter
+TARGET  = bin/x-shooter
 
-SOURCES = x-shooter.cpp api/graphic.cpp game.cpp screen.cpp image.cpp grid.cpp \
-          cache.cpp
+SOURCES = $(patsubst %,src/%.cpp,x-shooter api/graphic game screen image grid \
+          cache)
 
 #audio.cpp font.cpp hud.cpp world.cpp level.cpp hero.cpp enemy.cpp shot.cpp item.cpp
 
-OBJS    = $(SOURCES:.cpp=.o)
+OBJS    = $(SOURCES:src/%.cpp=.objs/%.o)
 
-CFLAGS  = -O3 `pkg-config --cflags sdl SDL_image SDL_mixer`
+CFLAGS  = -O3 `pkg-config --cflags sdl SDL_image SDL_mixer` # -D_GNU_SOURCE=1 -D_REENTRANT -I/usr/include/SDL
 LDFLAGS =
 
-LIBS    = -lSDL_ttf `pkg-config --libs sdl SDL_image SDL_mixer`
+LIBS    = -lSDL_ttf `pkg-config --libs sdl SDL_image SDL_mixer` # -lSDL_image -lSDL_mixer -lSDL
 
 all: $(TARGET)
 
-$(TARGET): $(OBJS)
+$(TARGET): dirs $(OBJS)
 	$(CXX) $(LDFLAGS) $(OBJS) -o $@ $(LIBS)
 
-%.o: %.cpp
-	$(CXX) $(CFLAGS) -c $< -o $@
+.objs/%.o: src/%.cpp
+	$(CXX) $(CFLAGS) -c $? -o $@
+
+dirs:
+	-mkdir -p $(dir $(TARGET) $(OBJS))
 
 clean:
-	@rm $(TARGET) $(OBJS)
+	-rm $(TARGET) $(OBJS)
+	-rmdir -p $(dir $(TARGET) $(OBJS))
