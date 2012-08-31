@@ -17,6 +17,7 @@ LDFLAGS =
 LIBS    = -lSDL_ttf `pkg-config --libs sdl SDL_image SDL_mixer` # -lSDL_image -lSDL_mixer -lSDL
 
 all: $(TARGET)
+	strip $(TARGET)
 
 $(TARGET): dirs $(OBJS)
 	$(CXX) $(LDFLAGS) $(OBJS) -o $@ $(LIBS)

@@ -13,18 +13,34 @@ void game_active_listener(bool active, void *data)
 	else game->cache->release();
 }
 
+void game_key_down_listener(int key, void *data)
+{
+	Game *game = (Game*)data;
+
+	for (std::set<Typeable*>::iterator it = game->typers.begin(); it != game->typers.end(); it++)
+	{
+		(*it)->keyDown(key);
+	}
+}
+
+void game_key_up_listener(int key, void *data)
+{
+	Game *game = (Game*)data;
+
+	for (std::set<Typeable*>::iterator it = game->typers.begin(); it != game->typers.end(); it++)
+	{
+		(*it)->keyUp(key);
+	}
+}
+
 
 Game::Game() : active(true)
 {
-	screen  = new Screen();
+	screen = new Screen();
 	cache = new Cache(screen);
-	// For test only
-	Image *image = cache->image("media/images/hero1.png");
-	grid = new Grid(image, 5, 4);
-	id = 0;
 
 	gui_event_set_active_listener(game_active_listener, this);
-	// TODO: set activer listener, set key listener
+	gui_event_set_key_listener(game_key_down_listener, game_key_up_listener, this);
 }
 
 Game::~Game()
@@ -40,18 +56,15 @@ int Game::loop()
 	{
 		if (active)
 		{
-			screen->clear();
+			//screen->clear();
 
-			// For test only
-#define COEFFICIENT 2
-#define OFFSET      0
-			grid->paint((((id / COEFFICIENT) > 4)?8 - (id / COEFFICIENT):(id / COEFFICIENT)) + OFFSET * 5, 10, 10);
-			id++;
-			if (id > 8 * COEFFICIENT) id = 0;
+			for (std::set<Updatable*>::iterator it = updaters.begin(); it != updaters.end(); it++)
+			{
+				(*it)->update();
+			}
 
-			// TODO: update
-
-			screen->update();
+			//screen->update();
+			screen->draw();
 		}
 
 		waitFixedFrame();
@@ -63,6 +76,33 @@ int Game::loop()
 int Game::close()
 {
 	screen->close();
+}
+
+
+const Cache* Game::getCache()
+{
+	return cache;
+}
+
+const Screen* Game::getScreen()
+{
+	return screen;
+}
+
+
+void Game::addUpdater(Updatable *updater)
+{
+	updaters.insert(updater);
+}
+
+void Game::addDrawer(int layer, Drawable *drawer)
+{
+	screen->addDrawer(layer, drawer);
+}
+
+void Game::addTyper(Typeable *typer)
+{
+	typers.insert(typer);
 }
 
 
