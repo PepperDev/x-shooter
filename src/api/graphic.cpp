@@ -1,5 +1,6 @@
 #include "graphic.h"
 #include <map>
+#include <iostream>
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
 
@@ -13,11 +14,19 @@ static void *key_listener_data = NULL;
 
 int gui_init(int width, int height, const char *title)
 {
-	if (SDL_Init(SDL_INIT_VIDEO) == -1) throw "Couldn't init video.";
+	if (SDL_Init(SDL_INIT_VIDEO) == -1)
+	{
+		std::cerr << "Couldn't init video." << std::endl;
+		exit(-1);
+	}
 
 	SDL_Surface *screen = SDL_SetVideoMode(width, height, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
 
-	if (screen == NULL) throw "Couldn't create a video surface.";
+	if (screen == NULL)
+	{
+		std::cerr << "Couldn't create a video surface." << std::endl;
+		exit(-1);
+	}
 
 	SDL_WM_SetCaption(title, NULL);
 	SDL_ShowCursor(SDL_DISABLE);
@@ -116,7 +125,11 @@ int gui_image_load(const char *filename)
 
 	image = IMG_Load(filename);
 
-	if (image == NULL) throw "Image not found.";
+	if (image == NULL)
+	{
+		std::cerr << "Image \"" << filename << "\" not found." << std::endl;
+		exit(-1);
+	}
 
 	otimized = SDL_DisplayFormat(image);
 
