@@ -7,7 +7,7 @@
 #include "grid.h"
 #include "animation.h"
 
-Hero::Hero(Game *game) : game(game), horizontal(0), vertical(0), x(0), y(0), front(true), offset_x(0)
+Hero::Hero(Game *game) : game(game), horizontal(0), vertical(0), x(0), y(0), forward(true), offset_x(0)
 {
 	Image *image = game->getCache()->image(MEDIA_HERO_128X128);
 	grid[0] = new Grid(image, 128, 128);
@@ -64,19 +64,26 @@ void Hero::update()
 	x += horizontal * HERO_SPEED;
 	y += vertical;
 
-	if (horizontal == 0 && current != resting)
+	if (horizontal != 0)
+	{
+		if (forward != horizontal > 0)
+		{
+			forward = horizontal > 0;
+			offset_x = forward ? 0 : -32;
+			current->flip(!forward);
+		}
+
+		if (current != walking)
+		{
+			current = walking;
+			current->flip(!forward);
+			current->reset();
+		}
+	}
+	else if (horizontal == 0 && current != resting)
 	{
 		current = resting;
-		current->flip(!front);
-		current->reset();
-	}
-	else if (horizontal != 0 && current != walking)
-	{
-		front = horizontal > 0;
-		offset_x = front ? 0 : -32;
-
-		current = walking;
-		current->flip(!front);
+		current->flip(!forward);
 		current->reset();
 	}
 }

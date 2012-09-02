@@ -40,7 +40,7 @@ private:
 	Animation *shootingDown;
 	Animation *sniping;
 	Animation *dying;
-	bool      front;
+	bool      forward;
 	char      horizontal;
 	char      vertical;
 	int       x;
