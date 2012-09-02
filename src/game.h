@@ -5,9 +5,14 @@
 #define TIME_PER_FRAME     (1000 / FRAMES_PER_SECOND)
 
 #include <set>
-#include "screen.h"
-#include "cache.h"
-#include "interfaces.h"
+
+class Updatable;
+class Drawable;
+class Typeable;
+
+class Cache;
+class Screen;
+class Hero;
 
 void game_active_listener(bool active, void *data);
 void game_key_down_listener(int key, void *data);
@@ -22,8 +27,8 @@ public:
 	int loop();
 	int close();
 
-	const Cache* getCache();
-	const Screen* getScreen();
+	Cache* getCache();
+	Screen* getScreen();
 
 	void addUpdater(Updatable *updater);
 	void addDrawer(int layer, Drawable *drawer);
@@ -31,7 +36,8 @@ public:
 
 private:
 	Screen *screen;
-	Cache *cache;
+	Cache  *cache;
+	Hero   *hero;
 	unsigned long timer;
 	bool active;
 	std::set<Updatable*> updaters;

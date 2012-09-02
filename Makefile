@@ -5,9 +5,9 @@
 TARGET  = bin/x-shooter
 
 SOURCES = $(patsubst %,src/%.cpp,x-shooter api/graphic game screen image grid \
-          cache)
+          cache hero)
 
-#audio.cpp font.cpp hud.cpp world.cpp level.cpp hero.cpp enemy.cpp shot.cpp item.cpp
+#audio.cpp font.cpp hud.cpp world.cpp level.cpp enemy.cpp shot.cpp item.cpp
 
 OBJS    = $(SOURCES:src/%.cpp=.objs/%.o)
 

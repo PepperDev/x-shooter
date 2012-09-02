@@ -1,4 +1,5 @@
 #include "grid.h"
+#include "image.h"
 
 Grid::Grid(Image *image, int split_x, int split_y, bool divide) : image(image), split_x(split_x), split_y(split_y), divide(divide)
 {

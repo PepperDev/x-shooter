@@ -1,6 +1,6 @@
+#include "api/graphic.h"
 #include "image.h"
 #include "screen.h"
-#include "api/graphic.h"
 
 Image::Image(Screen *screen, std::string filename) : screen(screen), filename(filename)
 {

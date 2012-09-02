@@ -1,10 +1,13 @@
 #ifndef HERO_H
 #define HERO_H
 
-#include "game.h"
 #include "interfaces.h"
 
-class Hero : Updatable, Drawable, Typeable
+class Game;
+class Image;
+class Grid;
+
+class Hero : public Updatable, public Drawable, public Typeable
 {
 public:
 	Hero(Game *game);
@@ -19,6 +22,10 @@ private:
 	Game *game;
 	Image *image;
 	Grid *grid;
+	char horizontal;
+	char vertical;
+	int x;
+	int y;
 };
 
 #endif

@@ -1,4 +1,5 @@
 #include "cache.h"
+#include "image.h"
 
 Cache::Cache(Screen *screen) : screen(screen)
 {

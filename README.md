@@ -14,6 +14,6 @@ Then, for compiling you simple do:
 
 	$ make
 
-So, if everything goes well the binary file will appear in the current folder, follow the command to play:
+So, if everything goes well the binary file will appear in the *bin* folder, follow the command to play:
 
-	$ ./x-shooter
+	$ ./bin/x-shooter

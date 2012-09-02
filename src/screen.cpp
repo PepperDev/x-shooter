@@ -1,8 +1,11 @@
 #include <iostream>
 
+#include "api/graphic.h"
+
+#include "interfaces.h"
+
 #include "screen.h"
 #include "image.h"
-#include "api/graphic.h"
 
 Screen::Screen()
 {

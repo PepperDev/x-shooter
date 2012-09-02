@@ -1,7 +1,11 @@
 #include <iostream>
 
-#include "game.h"
 #include "api/graphic.h"
+
+#include "game.h"
+#include "screen.h"
+#include "cache.h"
+#include "hero.h"
 
 void game_active_listener(bool active, void *data)
 {
@@ -37,7 +41,10 @@ void game_key_up_listener(int key, void *data)
 Game::Game() : active(true)
 {
 	screen = new Screen();
-	cache = new Cache(screen);
+	cache  = new Cache(screen);
+
+	// TODO: world
+	hero   = new Hero(this);
 
 	gui_event_set_active_listener(game_active_listener, this);
 	gui_event_set_key_listener(game_key_down_listener, game_key_up_listener, this);
@@ -56,14 +63,11 @@ int Game::loop()
 	{
 		if (active)
 		{
-			//screen->clear();
-
 			for (std::set<Updatable*>::iterator it = updaters.begin(); it != updaters.end(); it++)
 			{
 				(*it)->update();
 			}
 
-			//screen->update();
 			screen->draw();
 		}
 
@@ -79,12 +83,12 @@ int Game::close()
 }
 
 
-const Cache* Game::getCache()
+Cache* Game::getCache()
 {
 	return cache;
 }
 
-const Screen* Game::getScreen()
+Screen* Game::getScreen()
 {
 	return screen;
 }

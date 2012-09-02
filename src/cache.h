@@ -4,7 +4,8 @@
 #include <string>
 #include <map>
 
-#include "image.h"
+class Screen;
+class Image;
 
 class Cache
 {

@@ -16,7 +16,8 @@
 #define LAYER_MAX        6
 
 #include <set>
-#include "interfaces.h"
+
+class Drawable;
 
 class Image;
 
