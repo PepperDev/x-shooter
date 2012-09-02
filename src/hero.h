@@ -29,8 +29,7 @@ private:
 	Grid      *grid[3];
 	Animation *current;
 	Animation *resting;
-	Animation *walkingRight;
-	Animation *walkingLeft;
+	Animation *walking;
 	Animation *jumping;
 	Animation *downing;
 	Animation *upping;
@@ -41,10 +40,12 @@ private:
 	Animation *shootingDown;
 	Animation *sniping;
 	Animation *dying;
+	bool      front;
 	char      horizontal;
 	char      vertical;
 	int       x;
 	int       y;
+	int       offset_x;
 };
 
 #endif

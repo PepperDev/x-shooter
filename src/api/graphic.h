@@ -28,6 +28,7 @@ void gui_wait(unsigned long time);
 int gui_image_load(const char *filename);
 int gui_image_width(int image_id);
 int gui_image_height(int image_id);
+int gui_image_create_flipped(int image_id, bool flip_x, bool flip_y);
 void gui_image_destroy(int image_id);
 void gui_image_paint(int source, int x, int y, int target, int left, int top, int width, int height);
 

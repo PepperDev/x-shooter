@@ -153,6 +153,31 @@ int gui_image_height(int image_id)
 	return surfaces.find(image_id)->second->h;
 }
 
+int gui_image_create_flipped(int image_id, bool flip_x, bool flip_y)
+{
+	SDL_Surface *image   = surfaces.find(image_id)->second;
+	SDL_Surface *flipped = NULL;
+
+	flipped = SDL_CreateRGBSurface(SDL_SWSURFACE, image->w, image->h, image->format->BitsPerPixel, image->format->Rmask, image->format->Gmask, image->format->Bmask, (image->flags & SDL_SRCCOLORKEY == SDL_SRCCOLORKEY) ? 0 : image->format->Amask);
+
+	if (SDL_MUSTLOCK(image)) SDL_LockSurface(image);
+
+	for (int x = image->w; x--; )
+	{
+		for (int y = image->h; y--; )
+		{
+			((Uint32*) flipped->pixels)[(flip_y ? image->h - y - 1 : y ) * image->w + (flip_x ? image->w - x -1 : x)] = ((Uint32*) image->pixels)[y * image->w + x];
+		}
+	}
+
+	if (SDL_MUSTLOCK(image)) SDL_UnlockSurface(image);
+
+	if (image->flags & SDL_SRCCOLORKEY == SDL_SRCCOLORKEY) SDL_SetColorKey(flipped, SDL_RLEACCEL | SDL_SRCCOLORKEY, image->format->colorkey);
+
+	surfaces.insert(std::make_pair(surfaces_last, flipped));
+	return surfaces_last++;
+}
+
 void gui_image_destroy(int image_id)
 {
 	SDL_FreeSurface(surfaces.find(image_id)->second);

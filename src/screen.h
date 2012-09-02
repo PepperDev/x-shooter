@@ -31,7 +31,7 @@ public:
 
 	void addDrawer(int layer, Drawable *drawer);
 
-	void paint(int x, int y, Image *image, int top, int left, int width, int height);
+	void paint(int x, int y, Image *image, int top, int left, int width, int height, bool flip_x = false, bool flip_y = false);
 private:
 	int id;
 	std::set<Drawable*> drawers[LAYER_MAX];

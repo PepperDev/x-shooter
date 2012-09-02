@@ -1,7 +1,7 @@
 #include "animation.h"
 #include "grid.h"
 
-Animation::Animation() : id(0), times(0)
+Animation::Animation() : id(0), times(0), flip_x(false), flip_y(false)
 {
 }
 
@@ -31,12 +31,10 @@ void Animation::add(int frames, Grid *grid, int id, int offset_x, int offset_y)
 
 void Animation::play(int x, int y)
 {
-	AnimationStep *step = steps.at(id);
-
-	step->grid->paint(step->id, x + step->x, y + step->y);
+	paint(x, y);
 
 	times++;
-	if (times > step->frames)
+	if (times > steps.at(id)->frames)
 	{
 		times = 0;
 		id++;
@@ -44,8 +42,48 @@ void Animation::play(int x, int y)
 	}
 }
 
+void Animation::paint(int x, int y)
+{
+	AnimationStep *step = steps.at(id);
+
+	int id = step->id;
+
+	if (flip_x || flip_y)
+	{
+		int count_x = step->grid->countX();
+		int count_y = step->grid->countY();
+		int id_x = id % count_x;
+		int id_y = id / count_x;
+
+		if (flip_x) id_x = count_x - id_x - 1;
+		if (flip_y) id_y = count_y - id_y - 1;
+
+		id = id_y * count_x + id_x;
+	}
+
+	step->grid->paint(id, x + step->x, y + step->y, flip_x, flip_y);
+}
+
 void Animation::reset()
 {
 	id    = 0;
 	times = 0;
+}
+
+
+int Animation::position()
+{
+	return id;
+}
+
+int Animation::size()
+{
+	return steps.size();
+}
+
+
+void Animation::flip(bool horizontal, bool vertical)
+{
+	flip_x = horizontal;
+	flip_y = vertical;
 }

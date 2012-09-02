@@ -23,11 +23,19 @@ public:
 	void add(int frames, Grid *grid, int id, int offset_x = 0, int offset_y = 0); // TODO: collisor
 
 	void play(int x, int y);
+	void paint(int x, int y);
 	void reset();
+
+	int position();
+	int size();
+
+	void flip(bool horizontal = false, bool vertical = false);
 
 private:
 	int id;
 	int times;
+	bool flip_x;
+	bool flip_y;
 	std::vector<AnimationStep*> steps;
 };
 

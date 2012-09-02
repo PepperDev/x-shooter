@@ -40,7 +40,7 @@ void Screen::addDrawer(int layer, Drawable *drawer)
 }
 
 
-void Screen::paint(int x, int y, Image *image, int top, int left, int width, int height)
+void Screen::paint(int x, int y, Image *image, int top, int left, int width, int height, bool flip_x, bool flip_y)
 {
-	gui_image_paint(image->id, x, y, id, top, left, width, height);
+	gui_image_paint(image->id[(flip_x ? 1: 0) + (flip_y ? 2 : 0)], x, y, id, top, left, width, height);
 }

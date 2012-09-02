@@ -11,7 +11,7 @@ public:
 	Image(Screen *screen, std::string filename);
 	~Image();
 
-	void paint(int x = 0, int y = 0, int top = 0, int left = 0, int width = -1, int height = -1); // TODO: layer
+	void paint(int x = 0, int y = 0, int top = 0, int left = 0, int width = -1, int height = -1, bool flip_x = false, bool flip_y = false);
 	int getWidth();
 	int getHeight();
 	void release();
@@ -19,7 +19,7 @@ public:
 private:
 	Screen *screen;
 	std::string filename;
-	int id;
+	int id[4];
 	int width;
 	int height;
 
