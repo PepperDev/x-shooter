@@ -3,9 +3,15 @@
 
 #include "interfaces.h"
 
+#define HERO_SPEED 5
+
+#define MEDIA_HERO_128X128 "media/images/hero_128x128.png"
+#define MEDIA_HERO_192X128 "media/images/hero_192x128.png"
+#define MEDIA_HERO_192X64  "media/images/hero_192x64.png"
+
 class Game;
-class Image;
 class Grid;
+class Animation;
 
 class Hero : public Updatable, public Drawable, public Typeable
 {
@@ -19,13 +25,26 @@ public:
 	void keyUp(int key);
 
 private:
-	Game *game;
-	Image *image;
-	Grid *grid;
-	char horizontal;
-	char vertical;
-	int x;
-	int y;
+	Game      *game;
+	Grid      *grid[3];
+	Animation *current;
+	Animation *resting;
+	Animation *walkingRight;
+	Animation *walkingLeft;
+	Animation *jumping;
+	Animation *downing;
+	Animation *upping;
+	Animation *crawling;
+	Animation *throwing;
+	Animation *shooting;
+	Animation *shootingUp;
+	Animation *shootingDown;
+	Animation *sniping;
+	Animation *dying;
+	char      horizontal;
+	char      vertical;
+	int       x;
+	int       y;
 };
 
 #endif

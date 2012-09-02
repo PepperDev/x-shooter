@@ -5,7 +5,7 @@
 TARGET  = bin/x-shooter
 
 SOURCES = $(patsubst %,src/%.cpp,x-shooter api/graphic game screen image grid \
-          cache hero)
+          cache hero animation)
 
 #audio.cpp font.cpp hud.cpp world.cpp level.cpp enemy.cpp shot.cpp item.cpp
 
