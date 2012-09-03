@@ -3,7 +3,9 @@
 
 #include "interfaces.h"
 
-#define HERO_SPEED 5
+#define HERO_WALK_SPEED   5
+#define HERO_JUMP_FORCE  -10
+#define HERO_CRAWL_SPEED  3
 
 #define MEDIA_HERO_128X128 "media/images/hero_128x128.png"
 #define MEDIA_HERO_192X128 "media/images/hero_192x128.png"
@@ -30,22 +32,28 @@ private:
 	Animation *current;
 	Animation *resting;
 	Animation *walking;
-	Animation *jumping;
+	Animation *jumpingUp;
+	Animation *jumpingDown;
 	Animation *downing;
 	Animation *upping;
+	Animation *laying;
 	Animation *crawling;
 	Animation *throwing;
 	Animation *shooting;
 	Animation *shootingUp;
 	Animation *shootingDown;
+	Animation *shootingAir;
 	Animation *sniping;
 	Animation *dying;
 	bool      forward;
 	char      horizontal;
+	char      horizontal_jump;
 	char      vertical;
 	int       x;
 	int       y;
 	int       offset_x;
+	int       offset_y;
+	int       force;
 };
 
 #endif

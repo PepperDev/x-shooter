@@ -1,7 +1,7 @@
 #include "animation.h"
 #include "grid.h"
 
-Animation::Animation() : id(0), times(0), flip_x(false), flip_y(false)
+Animation::Animation(bool repeat) : repeat(repeat), id(0), times(0), flip_x(false), flip_y(false)
 {
 }
 
@@ -33,8 +33,10 @@ void Animation::play(int x, int y)
 {
 	paint(x, y);
 
+	if (!repeat && end()) return;
+
 	times++;
-	if (times > steps.at(id)->frames)
+	if (times >= steps.at(id)->frames)
 	{
 		times = 0;
 		id++;
@@ -48,6 +50,9 @@ void Animation::paint(int x, int y)
 
 	int id = step->id;
 
+	int offset_x = step->x;
+	int offset_y = step->y;
+
 	if (flip_x || flip_y)
 	{
 		int count_x = step->grid->countX();
@@ -55,13 +60,21 @@ void Animation::paint(int x, int y)
 		int id_x = id % count_x;
 		int id_y = id / count_x;
 
-		if (flip_x) id_x = count_x - id_x - 1;
-		if (flip_y) id_y = count_y - id_y - 1;
+		if (flip_x)
+		{
+			id_x = count_x - id_x - 1;
+			offset_x *= -1;
+		}
+		if (flip_y)
+		{
+			id_y = count_y - id_y - 1;
+			offset_y *= -1;
+		}
 
 		id = id_y * count_x + id_x;
 	}
 
-	step->grid->paint(id, x + step->x, y + step->y, flip_x, flip_y);
+	step->grid->paint(id, x + offset_x, y + offset_y, flip_x, flip_y);
 }
 
 void Animation::reset()
@@ -79,6 +92,11 @@ int Animation::position()
 int Animation::size()
 {
 	return steps.size();
+}
+
+bool Animation::end()
+{
+	return id >= steps.size() - 1 && times >= steps.front()->frames - 1;
 }
 
 

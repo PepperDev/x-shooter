@@ -17,7 +17,7 @@ typedef struct
 class Animation
 {
 public:
-	Animation();
+	Animation(bool repeat = true);
 	~Animation();
 
 	void add(int frames, Grid *grid, int id, int offset_x = 0, int offset_y = 0); // TODO: collisor
@@ -26,14 +26,16 @@ public:
 	void paint(int x, int y);
 	void reset();
 
-	int position();
-	int size();
+	int  position();
+	int  size();
+	bool end();
 
 	void flip(bool horizontal = false, bool vertical = false);
 
 private:
 	int id;
 	int times;
+	bool repeat;
 	bool flip_x;
 	bool flip_y;
 	std::vector<AnimationStep*> steps;
